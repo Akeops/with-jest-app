@@ -16,5 +16,5 @@ it("App Router: Works with Client Components (React State)", () => {
   render(<Counter />);
   expect(screen.getByRole("heading")).toHaveTextContent("0");
   fireEvent.click(screen.getByTestId("button-substract"));
-  expect(screen.getByRole("heading")).toHaveTextContent("-2");
+  expect(screen.getByRole("heading")).toHaveTextContent("-1");
 })
