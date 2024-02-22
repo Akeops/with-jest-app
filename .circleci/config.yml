@@ -39,10 +39,10 @@ workflows:
       - deploy-test:
           requires:
             - uni_tests
-        filters:
-          branches:
-            only:
-              - develop
+          filters:
+            branches:
+              only:
+                - develop
 
       - deploy_prod:
           requires:
