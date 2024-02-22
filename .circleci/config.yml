@@ -4,12 +4,38 @@ orbs:
   node: circleci/node@5
 
 jobs:
-
+  
+  # Section BUILD
   build:
     executor: node/default
     steps:
       - checkout
       - run: echo "Building things..."
+  
+  Installing_dependencies:
+    executor: node/default
+    steps:
+      - checkout
+      - run: echo "Installing dependencies..."
+    
+  Code_analysis:
+    executor: node/default
+    steps:
+      - checkout
+      - run: echo "Analysating the code...."
+
+  Cleaning and Packaging:
+    executor: node/default
+    steps:
+      - checkout
+      - run: echo "Cleaning everything and packaging the project...."
+
+  # Section TESTS
+  Installing_dependencies:
+    executor: node/default
+    steps:
+      - checkout
+      - run: echo "Installing dependencies..."
 
   unit_tests:
     executor: node/default
@@ -39,6 +65,32 @@ jobs:
       - checkout
       - run: echo "Testing regressions..."
 
+  Performance_testing:
+    executor: node/default
+    steps: 
+      - checkout
+      - run: echo "Testing performence...."
+
+  Security_testing:
+    executor: node/default
+    steps: 
+      - checkout
+      - run: echo "Testing security...."
+
+  Compatibility_testing:
+    executor: node/default
+    steps: 
+      - checkout
+      - run: echo "Testing the compatibility of the code...."
+
+  Accessibility_testing:
+    executor: node/default
+    steps: 
+      - checkout
+      - run: echo "Testing the accessibility of the code...."
+
+  # Section DEPLOY
+
   deploy_dev:
     executor: node/default
     steps:
@@ -53,13 +105,21 @@ jobs:
 
 workflows:
   version: 2
-
+ # Deployment part
   build-test-deploy:
 
     jobs:
-
+    # Section BUILD
       - build
+      - Installing_dependencies:
+          requires:
+            - build
 
+      - Code_analysis:
+          requires:
+            - build
+
+    # Section TESTS
       - unit_tests:
           requires:
             - build
@@ -71,6 +131,30 @@ workflows:
       - Regression_testing:
           requires:
             - build
+
+      - Performance_testing:
+          requires:
+            - build
+
+      - Security_testing:
+          requires:
+            - build
+
+      - Compatibility_testing:
+          requires:
+            - build
+
+      
+
+    # Section DEPLOY
+      - deploy_feature:
+          requires:
+            - unit_tests
+            - Regression_testing
+          filters:
+            branches:
+              only:
+                - feature
 
       - deploy_dev:
           requires:
