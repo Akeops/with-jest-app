@@ -85,6 +85,12 @@ jobs:
 
   # Section DEPLOY
 
+  deploy_feature:
+    executor: node/default
+    steps:
+      - checkout
+      - run: echo "Deploying to feature environment..."
+
   deploy_dev:
     executor: node/default
     steps:
