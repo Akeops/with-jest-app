@@ -36,7 +36,7 @@ workflows:
           requires:
             - build
 
-      - deploy-dev:
+      - deploy_dev:
           requires:
             - uni_tests
           filters:
