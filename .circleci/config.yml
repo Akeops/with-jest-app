@@ -58,6 +58,10 @@ workflows:
           requires:
             - build
 
+      - Integration_testing:
+          requires:
+            - build
+
       - deploy_dev:
           requires:
             - unit_tests
