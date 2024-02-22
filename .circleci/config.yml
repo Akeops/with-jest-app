@@ -27,7 +27,7 @@ jobs:
       - store_test_results:
           path: ./test-results/
 
-  Integration_testing: // I create a job to test integrations 
+  Integration_testing: 
     executor: node/default
     steps:
       - checkout
