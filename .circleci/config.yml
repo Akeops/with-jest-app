@@ -31,12 +31,6 @@ jobs:
       - run: echo "Cleaning everything and packaging the project...."
 
   # Section TESTS
-  Installing_dependencies:
-    executor: node/default
-    steps:
-      - checkout
-      - run: echo "Installing dependencies..."
-
   unit_tests:
     executor: node/default
     environment:
