@@ -38,7 +38,7 @@ workflows:
 
       - deploy_dev:
           requires:
-            - uni_tests
+            - unit_tests
           filters:
             branches:
               only:
@@ -46,7 +46,7 @@ workflows:
 
       - deploy_prod:
           requires:
-            - uni_tests
+            - unit_tests
           filters:
             branches:
               only:
