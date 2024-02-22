@@ -33,6 +33,12 @@ jobs:
       - checkout
       - run: echo "Testing integrations...."
 
+  Regression_testing:
+    executor: node/default
+    steps:
+      - checkout
+      - run: echo "Testing regressions..."
+
   deploy_dev:
     executor: node/default
     steps:
@@ -59,6 +65,10 @@ workflows:
             - build
 
       - Integration_testing:
+          requires:
+            - build
+
+      - Regression_testing:
           requires:
             - build
 
