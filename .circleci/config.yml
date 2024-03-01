@@ -4,8 +4,7 @@ orbs:
   node: circleci/node@5
 
 jobs:
-  
-  # Section BUILD
+
   build:
     executor: node/default
     steps:
@@ -30,7 +29,6 @@ jobs:
       - checkout
       - run: echo "Cleaning everything and packaging the project...."
 
-  # Section TESTS
   unit_tests:
     executor: node/default
     environment:
@@ -105,12 +103,13 @@ jobs:
 
 workflows:
   version: 2
- # Deployment part
   build-test-deploy:
 
     jobs:
-    # Section BUILD
+
       - build
+
+      # Tous les tests de premier niveau qui regarde si le build est bien fait avant de commencer à tester.
       - Installing_dependencies:
           requires:
             - build
@@ -119,7 +118,6 @@ workflows:
           requires:
             - build
 
-    # Section TESTS
       - unit_tests:
           requires:
             - build
@@ -128,6 +126,7 @@ workflows:
           requires:
             - build
 
+    # Tests de dernier niveau qui demande la réussite d'un tâche auparavent en fonction du test effectué
       - Regression_testing:
           requires:
             - build
@@ -153,15 +152,18 @@ workflows:
             - cleaning_and_Packaging
 
     # Section DEPLOY
+
+      # Pour le déploiement sur la branche feature j'y ai mis que le stricte minimum pour permettre aux développeurs de pouvoir tester leur code sans trop de contraintes.
       - deploy_feature:
           requires:
-            - unit_tests
             - Regression_testing
+            - Performance_testing
           filters:
             branches:
               only:
                 - feature
 
+      # Une grande majorité des tests sont là sauf celui de l'intégration qui est réservé pour le déploiement sur la branche main.
       - deploy_dev:
           requires:
             - Regression_testing
@@ -173,6 +175,7 @@ workflows:
               only:
                 - develop
 
+      # Tous les tests de dernier niveau y sont.
       - deploy_prod:
           requires:
             - Performance_testing
