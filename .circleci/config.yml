@@ -24,7 +24,7 @@ jobs:
       - checkout
       - run: echo "Analysating the code...."
 
-  Cleaning_and_Packaging:
+  cleaning_and_Packaging:
     executor: node/default
     steps:
       - checkout
@@ -124,6 +124,10 @@ workflows:
           requires:
             - build
 
+      - cleaning_and_Packaging:
+          requires:
+            - build
+
       - Regression_testing:
           requires:
             - build
@@ -146,7 +150,7 @@ workflows:
 
       - Accessibility_testing:
           requires:
-            - Cleaning_and_Packaging
+            - cleaning_and_Packaging
 
     # Section DEPLOY
       - deploy_feature:
