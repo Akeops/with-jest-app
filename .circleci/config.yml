@@ -130,9 +130,7 @@ workflows:
 
       - Integration_testing:
           requires:
-            - unit_tests
             - Regression_testing
-            - Installing_dependencies
 
       - Performance_testing:
           requires:
@@ -144,6 +142,10 @@ workflows:
             - unit_tests
 
       - Compatibility_testing:
+          requires:
+            - Installing_dependencies
+
+      - Accessibility_testing:
           requires:
             - Installing_dependencies
 
