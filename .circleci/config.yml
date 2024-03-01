@@ -167,6 +167,9 @@ workflows:
           requires:
             - build
             - unit_tests
+            - Regression_testing
+            - Performance_testing
+            - Compatibility_testing
           filters:
             branches:
               only:
