@@ -135,7 +135,6 @@ workflows:
       - Performance_testing:
           requires:
             - Code_analysis
-            - Regression_testing
             
       - Security_testing:
           requires:
@@ -161,11 +160,10 @@ workflows:
 
       - deploy_dev:
           requires:
-            - build
-            - unit_tests
             - Regression_testing
             - Performance_testing
             - Compatibility_testing
+            - Accessibility_testing
           filters:
             branches:
               only:
@@ -176,6 +174,8 @@ workflows:
             - Performance_testing
             - Compatibility_testing
             - Security_testing
+            - Integration_testing
+            - Accessibility_testing
           filters:
             branches:
               only:
