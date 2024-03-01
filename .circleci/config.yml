@@ -110,7 +110,7 @@ workflows:
 
     jobs:
     # Section BUILD
-      - build:
+      - build
       - Installing_dependencies:
           requires:
             - build
