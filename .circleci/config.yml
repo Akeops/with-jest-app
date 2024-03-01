@@ -24,7 +24,7 @@ jobs:
       - checkout
       - run: echo "Analysating the code...."
 
-  Cleaning and Packaging:
+  Cleaning_and_Packaging:
     executor: node/default
     steps:
       - checkout
@@ -110,7 +110,7 @@ workflows:
 
     jobs:
     # Section BUILD
-      - build
+      - build:
       - Installing_dependencies:
           requires:
             - build
@@ -124,31 +124,38 @@ workflows:
           requires:
             - build
 
-      - Integration_testing:
-          requires:
-            - build
-
       - Regression_testing:
           requires:
             - build
 
+      - Integration_testing:
+          requires:
+            - build
+            - unit_tests
+            - Regression_testing
+
       - Performance_testing:
           requires:
             - build
-
+            - Code_analysis
+            - Regression_testing
+            
       - Security_testing:
           requires:
             - build
+            - unit_tests
+            - Regression_testing
 
       - Compatibility_testing:
           requires:
             - build
-
-      
+            - unit_tests
+            - Integration_testing
 
     # Section DEPLOY
       - deploy_feature:
           requires:
+            - build
             - unit_tests
             - Regression_testing
           filters:
@@ -158,6 +165,7 @@ workflows:
 
       - deploy_dev:
           requires:
+            - build
             - unit_tests
           filters:
             branches:
@@ -166,7 +174,13 @@ workflows:
 
       - deploy_prod:
           requires:
+            - build
             - unit_tests
+            - Code_analysis
+            - Integration_testing
+            - Performance_testing
+            - Compatibility_testing
+            - Security_testing
           filters:
             branches:
               only:
