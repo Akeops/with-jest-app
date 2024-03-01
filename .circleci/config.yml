@@ -145,7 +145,6 @@ workflows:
 
       - Compatibility_testing:
           requires:
-            - unit_tests
             - Integration_testing
 
     # Section DEPLOY
@@ -172,7 +171,6 @@ workflows:
 
       - deploy_prod:
           requires:
-            - build
             - Performance_testing
             - Compatibility_testing
             - Security_testing
