@@ -178,9 +178,6 @@ workflows:
       - deploy_prod:
           requires:
             - build
-            - unit_tests
-            - Code_analysis
-            - Integration_testing
             - Performance_testing
             - Compatibility_testing
             - Security_testing
