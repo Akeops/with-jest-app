@@ -132,6 +132,7 @@ workflows:
           requires:
             - unit_tests
             - Regression_testing
+            - Installing_dependencies
 
       - Performance_testing:
           requires:
@@ -141,11 +142,10 @@ workflows:
       - Security_testing:
           requires:
             - unit_tests
-            - Regression_testing
 
       - Compatibility_testing:
           requires:
-            - Integration_testing
+            - Installing_dependencies
 
     # Section DEPLOY
       - deploy_feature:
