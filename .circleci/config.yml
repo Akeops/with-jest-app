@@ -11,7 +11,7 @@ jobs:
       - checkout
       - run: echo "Building things..."
   
-  Installing_dependencies:
+  installing_dependencies:
     executor: node/default
     steps:
       - checkout
@@ -45,37 +45,37 @@ jobs:
       - store_test_results:
           path: ./test-results/
 
-  Integration_testing: 
+  integration_testing: 
     executor: node/default
     steps:
       - checkout
       - run: echo "Testing integrations...."
 
-  Regression_testing:
+  regression_testing:
     executor: node/default
     steps:
       - checkout
       - run: echo "Testing regressions..."
 
-  Performance_testing:
+  performance_testing:
     executor: node/default
     steps: 
       - checkout
       - run: echo "Testing performence...."
 
-  Security_testing:
+  security_testing:
     executor: node/default
     steps: 
       - checkout
       - run: echo "Testing security...."
 
-  Compatibility_testing:
+  compatibility_testing:
     executor: node/default
     steps: 
       - checkout
       - run: echo "Testing the compatibility of the code...."
 
-  Accessibility_testing:
+  accessibility_testing:
     executor: node/default
     steps: 
       - checkout
@@ -109,12 +109,12 @@ workflows:
 
       - build
 
-      # Tous les tests de premier niveau qui regarde si le build est bien fait avant de commencer à tester.
-      - Installing_dependencies:
+      # Tous les tests de premier niveau qui regardent si le build est bien fait avant de commencer à tester.
+      - installing_dependencies:
           requires:
             - build
 
-      - Code_analysis:
+      - code_analysis:
           requires:
             - build
 
@@ -126,12 +126,14 @@ workflows:
           requires:
             - build
 
-    # Tests de dernier niveau qui demande la réussite d'un tâche auparavent en fonction du test effectué
-      - Regression_testing:
+    
+      - regression_testing:
           requires:
             - build
 
-      - Integration_testing:
+    # Tests de dernier niveau qui demande la réussite d'un tâche auparavent en fonction du test effectué.
+
+      - integration_testing:  # Vu que ce test est demandé seulement pour déployer sur le main je l'exclue des autres branches.
           requires:
             - Regression_testing
           filters:
@@ -139,19 +141,19 @@ workflows:
               only:
                 - main
 
-      - Performance_testing:
+      - performance_testing:
           requires:
-            - Code_analysis
+            - code_analysis
             
-      - Security_testing:
+      - security_testing:
           requires:
             - unit_tests
 
-      - Compatibility_testing:
+      - compatibility_testing:
           requires:
-            - Installing_dependencies
+            - installing_dependencies
 
-      - Accessibility_testing:
+      - accessibility_testing:
           requires:
             - cleaning_and_Packaging
 
@@ -160,8 +162,8 @@ workflows:
       # Pour le déploiement sur la branche feature j'y ai mis que le stricte minimum pour permettre aux développeurs de pouvoir tester leur code sans trop de contraintes.
       - deploy_feature:
           requires:
-            - Regression_testing
-            - Performance_testing
+            - regression_testing
+            - performance_testing
           filters:
             branches:
               only:
@@ -170,10 +172,10 @@ workflows:
       # Une grande majorité des tests sont là sauf celui de l'intégration qui est réservé pour le déploiement sur la branche main.
       - deploy_dev:
           requires:
-            - Regression_testing
-            - Performance_testing
-            - Compatibility_testing
-            - Accessibility_testing
+            - regression_testing
+            - performance_testing
+            - compatibility_testing
+            - accessibility_testing
           filters:
             branches:
               only:
@@ -182,11 +184,11 @@ workflows:
       # Tous les tests de dernier niveau y sont.
       - deploy_prod:
           requires:
-            - Performance_testing
-            - Compatibility_testing
-            - Security_testing
-            - Integration_testing
-            - Accessibility_testing
+            - performance_testing
+            - compatibility_testing
+            - security_testing
+            - integration_testing
+            - accessibility_testing
           filters:
             branches:
               only:
