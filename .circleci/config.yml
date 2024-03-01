@@ -130,32 +130,27 @@ workflows:
 
       - Integration_testing:
           requires:
-            - build
             - unit_tests
             - Regression_testing
 
       - Performance_testing:
           requires:
-            - build
             - Code_analysis
             - Regression_testing
             
       - Security_testing:
           requires:
-            - build
             - unit_tests
             - Regression_testing
 
       - Compatibility_testing:
           requires:
-            - build
             - unit_tests
             - Integration_testing
 
     # Section DEPLOY
       - deploy_feature:
           requires:
-            - build
             - unit_tests
             - Regression_testing
           filters:
