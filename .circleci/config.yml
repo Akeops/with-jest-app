@@ -146,7 +146,7 @@ workflows:
 
       - Accessibility_testing:
           requires:
-            - Installing_dependencies
+            - Cleaning_and_Packaging
 
     # Section DEPLOY
       - deploy_feature:
