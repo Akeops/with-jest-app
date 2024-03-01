@@ -135,7 +135,7 @@ workflows:
 
       - integration_testing:  # Vu que ce test est demandé seulement pour déployer sur le main je l'exclue des autres branches.
           requires:
-            - Regression_testing
+            - regression_testing
           filters:
             branches:
               only:
