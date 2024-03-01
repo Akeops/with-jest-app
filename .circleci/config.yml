@@ -134,6 +134,10 @@ workflows:
       - Integration_testing:
           requires:
             - Regression_testing
+          filters:
+            branches:
+              only:
+                - main
 
       - Performance_testing:
           requires:
